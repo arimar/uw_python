@@ -11,7 +11,7 @@ import socket
 import sys
 
 host = 'localhost' 
-port = 50000 
+port = 50002 
 size = 1024 
 string_to_send = ''
 
@@ -21,15 +21,16 @@ if nargs > 1:
 if nargs > 2:
     port = int(sys.argv[2])
 
+s = socket.socket(socket.AF_INET,
+		  socket.SOCK_STREAM)
+s.connect((host,port))
+print 'Connection accepted by (%s,%)' % (host,port)
 while True:
-	string_to_send = raw_input('-> ')
-	if (string_to_send == ''):
-		s.close()
-		break;
-	else:
-		s = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
-		s.connect((host,port)) 
-		s.send(string_to_send) 
-		data = s.recv(size) 
+	msg = raw_input('-> ')
+	if msg:               # msg is not empty
+		s.send(msg)
+		data = s.recv(size)
+		print data
+	else:                 # msg is empty
 		s.close() 
-
+		break         # exit loop
