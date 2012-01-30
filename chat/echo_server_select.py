@@ -39,7 +39,7 @@ timeout = 10 # seconds
 input = [server,sys.stdin]
 running = True
 while running:
-    inputready,outputready,exceptready = select.select(server,[],[],timeout)
+    inputready,outputready,exceptready = select.select(input,[],[],timeout)
 
     # timeout
     if not inputready:  
@@ -63,7 +63,7 @@ while running:
             data = s.recv(size)
             print '%s: %s' % (s.getpeername(), data.strip('\n'))
             if data:
-                s.send('uw-student: %s' % data)
+                s.send('arimar: %s' % data)
             else:
                 s.close()
                 print 'closed connection'
