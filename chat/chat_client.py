@@ -34,15 +34,17 @@ while True:
 	for i in inputready:
 		if i == 0:
 			data = sys.stdin.readline().strip()
-	        	if data: s.send(s,data)
-		else:
-	        	data = s.recv(s)
-	        	if not data:
-	        		print 'Shutting down.'
-		        	break
-                	elif s:
-                        	sys.stdout.write(data + '\n')
-                        	sys.stdout.flush()
+                        print "Data is %s" % data
+	        	if data: 
+                                s.send(data)
+                        elif i == s:
+	        	        data = s.recv(s)
+	        	        if not data:
+	        			print 'Shutting down.'
+		        		break
+                		else:
+                        		sys.stdout.write(data + '\n')
+                        		sys.stdout.flush()
 
     except KeyboardInterrupt:
         print 'Interrupted.'
