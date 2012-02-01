@@ -65,7 +65,8 @@ while running:
                 data = s.recv(size)
               print '%s: %s' % (s.getpeername(), data.strip('\n'))
               if data:
-                      s.send('arimar (%s)@(%s):  %s' % (str(s.getpeername()[0]),s.getpeername()[1],data))
+	        for client in output:
+                      client.send('arimar (%s)@(%s):  %s' % (str(s.getpeername()[0]),s.getpeername()[1],data))
               else:
                       s.close()
                       print 'closed connection'
