@@ -2,9 +2,7 @@
 Based on Daniel Zappala's http://ilab.cs.byu.edu/python/code/echoserver-select.py
 Add print statements to show what's going on.
 Use SO_REUSEADDR to avoid 'Address already in use' errors
-Add timeout
-make style similar to our recho_clien
-
+Add timeoutmake style similar to our recho_clien
 An echo server that uses select to handle multiple clients at a time.
 Entering any line of input at the terminal will exit the server.
 """
@@ -18,7 +16,7 @@ import datetime
 host = ''
 port = 50003 # different port than other samples, all can run on same server
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 1:    
     port = int(sys.argv[1])
 
 backlog = 5
@@ -37,13 +35,15 @@ server.listen(backlog)
 
 timeout = 10 # seconds
 input = [server,sys.stdin]
+output = []
 running = True
-while running:
+
+while running:    
     inputready,outputready,exceptready = select.select(input,[],[],timeout)
 
     # timeout
-    if not inputready:  
-        print 'Server running at %s' % datetime.datetime.now()
+    if not inputready:
+            print 'Server running at %s' % datetime.datetime.now()
 
     for s in inputready:
 
@@ -51,6 +51,7 @@ while running:
             # handle the server socket
             client, address = server.accept()
             input.append(client)
+            output.append(client)
             print 'accepted connection from', address
 
         elif s == sys.stdin:
@@ -60,13 +61,20 @@ while running:
             print 'Input %s from stdin, exiting.' % junk.strip('\n')
 
         elif s: # client socket
-            data = s.recv(size)
-            print '%s: %s' % (s.getpeername(), data.strip('\n'))
-            if data:
-                s.send('arimar: %s' % data)
-            else:
-                s.close()
-                print 'closed connection'
-                input.remove(s)
+            try:
+                data = s.recv(size)
+                print '%s: %s' % (s.getpeername(), data.strip('\n'))
+                if data:
+	            for client in output:
+                      client.send('arimar (%s)@(%s):  %s' % (str(s.getpeername()[0]),s.getpeername()[1],data))
+                else:
+                    s.close()
+                    print 'closed connection'
+                    input.remove(s)
+                    output.remove(s)
 
+            except socket.error,e:
+                    print 'Closed connection'
+                    input.remove(s)
+                    output.remove(s)
 s.close()
