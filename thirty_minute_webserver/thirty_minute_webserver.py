@@ -18,6 +18,7 @@
 #
 
 import os, socket, sys
+import time
 
 defaults = ['', '8080']  # '127.0.0.1' here limits connections to localhost
 mime_types = {'.jpg' : 'image/jpg', 
@@ -64,6 +65,24 @@ DIRECTORY_LISTING =\
 
 DIRECTORY_LINE = '<a href="%s">%s</a><br>'
 
+TIME_PAGE =\
+"""<html>
+<head><title>Time</title></head>
+<body>
+%s
+</body>
+</html>
+"""
+
+SUB_PAGE =\
+"""<html>
+<head><title>Time</title></head>
+<body>
+%s
+</body>
+</html>
+"""
+
 def server_socket(host, port):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host, port))
@@ -101,9 +120,17 @@ def get_file(path):
 def get_content(uri):
     print 'fetching:', uri
     try:
+	# Return datetime for in-class exercise
+	if uri == '/time/':
+		return (200, 'text/html', TIME_PAGE % time.asctime())
+
+	if uri == '/sub_page/':
+		return (200, 'text/html', SUB_PAGE % 'This is a hard-coded subpage')
+
+	# End of addition
         path = '.' + uri
         if os.path.isfile(path):
-            return (200, get_mime(uri), get_file(path))
+        	return (200, get_mime(uri), get_file(path))
         if os.path.isdir(path):
             if(uri.endswith('/')):
                 return (200, 'text/html', list_directory(uri))
