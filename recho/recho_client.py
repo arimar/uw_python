@@ -24,7 +24,7 @@ if nargs > 2:
 s = socket.socket(socket.AF_INET,
 		  socket.SOCK_STREAM)
 s.connect((host,port))
-print 'Connection accepted by (%s,%)' % (host,port)
+print 'Connection accepted by (%s,%s)' % (host,port)
 while True:
 	msg = raw_input('-> ')
 	if msg:               # msg is not empty
