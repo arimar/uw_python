@@ -9,6 +9,8 @@ Based on example in PEP 333, then add path and query processing
 
 import urlparse
 
+page_edit = []
+
 # send one of these pages, depending on URL path
 
 form_page = """<head>
@@ -58,8 +60,13 @@ def application(environ, start_response):
         page = form_page
     elif path == '/echo_wsgi.py':
         # get message from URL query string, parse_qs returns a list for each key
-        page = message_template % (
-            urlparse.parse_qs(environ['QUERY_STRING'])['message'][0])
+"""
+page = message_template % (
+urlparse.parse_qs(environ['QUERY_STRING'])['message'][0])
+"""
+        page_edit.append(urlparse.parse_qs(environ['QUERY_STRING'])['message'][0])
+        page_present = ', '.join(page_edit)
+        page = message_template % (page_present)
     else:
         page = notfound_template % path
     return [ page ] # list of strings - must return iterable, not just a string
