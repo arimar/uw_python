@@ -1,6 +1,10 @@
 import urllib2
 from BeautifulSoup import BeautifulSoup
 
+proxy = urllib2.ProxyHandler({'http' : '<Your proxy here>'})
+opener = urllib2.build_opener(proxy)
+urllib2.install_opener(opener)
+
 page = urllib2.urlopen('http://www.timeanddate.com/worldclock/astronomy.html?n=234')
 soup = BeautifulSoup(page)
 
