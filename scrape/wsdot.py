@@ -1,10 +1,6 @@
 import urllib2
 from BeautifulSoup import BeautifulSoup
 
-#proxy = urllib2.ProxyHandler({'http' : 'http://www-blv-proxy.boeing.com:31060'})
-#opener = urllib2.build_opener(proxy)
-#urllib2.install_opener(opener)
-
 page_north = urllib2.urlopen('http://www.wsdot.wa.gov/small/Seattle/TravelTimes/nbtimes.aspx')
 page_south = urllib2.urlopen('http://www.wsdot.wa.gov/small/Seattle/TravelTimes/sbtimes.aspx')
 
