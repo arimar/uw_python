@@ -2,6 +2,49 @@
 From Brian Dorsey's Internet Programming in Python, Winter 2011
 """
 
+from flask import Flask
+app = Flask(__name__)
+
+@app.route('/')
+def homepage():
+	return 'Main page'
+
+@app.route('/id1')
+def id1():
+    for k,d in database.iteritems():
+	if (k == 'id1'):
+	    for keys,data in d.iteritems():
+    		print url_for(keys,data)
+    return 'id1'
+
+@app.route('/id2')
+def id2():
+    for k,d in database.iteritems():
+	if (k == 'id2'):
+	    for keys,data in d.iteritems():
+		print keys,data
+    return 'id2'
+
+@app.route('/id3')
+def id3():
+    for k,d in database.iteritems():
+	if (k == 'id3'):
+	    for keys,data in d.iteritems():
+		print keys,data
+    return 'id3'
+
+@app.route('/id4')
+def id4():
+    for k,d in database.iteritems():
+	if (k == 'id4'):
+	    for keys,data in d.iteritems():
+		print keys,data
+    return 'id4'
+
+if __name__ == '__main__':
+	app.run()
+
+
 class BookDB():
     def titles(self):
         titles = [dict(id=id, title=database[id]['title']) for id in database.keys()]
@@ -39,4 +82,5 @@ database = {
              'author' : 'Andrew Hunt, David Thomas',
            },
 }
+
 
