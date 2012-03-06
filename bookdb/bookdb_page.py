@@ -1,6 +1,27 @@
 """
 From Brian Dorsey's Internet Programming in Python, Winter 2011
 """
+#from jinja2 import Environment, PackageLoader
+#env = Environment(loader=PackageLoader('bookdb', 'templates'))
+
+from flask import Flask, render_template
+from bookdb import BookDB
+
+app = Flask(__name__)
+db = BookDB()
+
+@app.route('/')
+def homepage():
+    return render_template('index.html',books=db.titles(),num_books=len(db.titles()))
+
+@app.route('/<id>')
+def ids(id=None):
+    print id,db.title_info(id)
+    return render_template('detail.html',book=db.title_info(id))
+
+if __name__ == '__main__':
+	app.run()
+
 
 class BookDB():
     def titles(self):

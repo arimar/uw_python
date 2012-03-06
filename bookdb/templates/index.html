@@ -1,0 +1,13 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Title Index</title>
+    </head>
+    <body>
+    {% for id in books %}
+    <h2>{{ id.title }}</h2>
+    <li><a href="{{ id.id }}">{{ id.title }}</a></li>
+    {% endfor %}
+    <h2>Number of titles found:  {{ num_books }}</h2>
+</body>
+</html>
